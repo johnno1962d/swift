@@ -114,6 +114,7 @@ namespace irgen {
   class FixedTypeInfo;
   class ForeignFunctionInfo;
   class FormalType;
+  class HeapLayout;
   class IRGenDebugInfo;
   class IRGenFunction;
   class LinkEntity;
@@ -390,6 +391,7 @@ public:
   union {
     llvm::PointerType *Int8PtrPtrTy;   /// i8**
     llvm::PointerType *WitnessTablePtrTy;
+    llvm::PointerType *CaptureDescriptorPtrTy;
   };
   llvm::StructType *RefCountedStructTy;/// %swift.refcounted = type { ... }
   llvm::PointerType *RefCountedPtrTy;  /// %swift.refcounted*
@@ -612,6 +614,8 @@ public:
   void emitReflectionMetadataRecords();
   llvm::Constant *getAddrOfStringForTypeRef(StringRef Str);
   llvm::Constant *getAddrOfFieldName(StringRef Name);
+  llvm::Constant *getAddrOfCaptureDescriptor(SILFunction &SILFn,
+                                             HeapLayout &Layout);
   std::string getBuiltinTypeMetadataSectionName();
   std::string getFieldTypeMetadataSectionName();
   std::string getAssociatedTypeMetadataSectionName();
